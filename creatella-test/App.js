@@ -2,23 +2,31 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider, connect } from 'react-redux'
+import axios from 'axios'
+import axiosMiddleware from 'redux-axios-middleware'
 
 import reducer from 'Redux/reducer'
+import ProductList from 'Container/product/ProductList'
 
-const store = createStore(reducer)
+const client = axios.create({
+  baseURL: 'http://localhost:3000/',
+  responseType: 'json'
+})
+
+const store = createStore(reducer, applyMiddleware(axiosMiddleware(client)))
 
 export default class App extends React.Component {
+
   render() {
     return (
       <Provider store={store}>
         <View style={styles.container}>
-          <Text>Open up App.js to start working on your app!</Text>
-          <Text>Changes you make will automatically reload.</Text>
-          <Text>Shake your phone to open the developer menu.</Text>
+          <ProductList />
         </View>
       </Provider>
     )
   }
+
 }
 
 const styles = StyleSheet.create({
