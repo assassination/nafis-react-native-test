@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, FlatList, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import styles from './Style'
+import { centToDollar } from 'Utils'
 
 import { getBatchProduct } from 'Redux/reducer'
 
@@ -11,14 +12,10 @@ class ProductList extends Component {
     this.props.getBatchProduct()
   }
 
-  _centToDollar(input) {
-    return '$' + input / 100
-  }
-
   _renderProduct = ({ item }) => (
     <View style={styles.item}>
       <Text>{item.face}</Text>
-      <Text>{this._centToDollar(item.price)}</Text>
+      <Text>{centToDollar(item.price)}</Text>
     </View>
   )
 
