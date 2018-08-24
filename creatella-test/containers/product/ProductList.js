@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, FlatList, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import styles from './Style'
-import { centToDollar } from 'Utils'
+import { centToDollar, getRelativeDate } from 'Utils'
 
 import { getBatchProduct } from 'Redux/reducer'
 
@@ -16,6 +16,7 @@ class ProductList extends Component {
     <View style={styles.item}>
       <Text>{item.face}</Text>
       <Text>{centToDollar(item.price)}</Text>
+      <Text>{getRelativeDate(item.date)}</Text>
     </View>
   )
 
