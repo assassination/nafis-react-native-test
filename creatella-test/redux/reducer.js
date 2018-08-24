@@ -16,12 +16,12 @@ export default function reducer(state = { product: [] }, action) {
 }
 
 // dispatch action to batch load the product
-export function getBatchProduct() {
+export function getBatchProduct(sort) {
   return {
     type: GET_BATCH_PRODUCT,
     payload: {
       request: {
-        url: 'products'
+        url: 'products?_sort='+sort
       }
     }
   }

@@ -18,7 +18,7 @@ class ProductList extends Component {
   }
 
   componentDidMount() {
-    this.props.getBatchProduct()
+    this.props.getBatchProduct(this.state.filter_type)
   }
 
   _renderProduct = ({ item }) => (
@@ -36,8 +36,12 @@ class ProductList extends Component {
 
   // when user finished choosing one of the filter
   _onFilterChanged(type) {
-    console.log(type)
-    this.setState({ is_filter_visible: false, filter_type: type })
+    this.setState({
+      is_filter_visible: false,
+      filter_type: type
+    }, () => {
+      this.props.getBatchProduct(this.state.filter_type)    // get sorted product list
+    })
   }
 
   render() {
