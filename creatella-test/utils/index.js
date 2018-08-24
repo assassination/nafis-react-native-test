@@ -1,1 +1,1 @@
-export { centToDollar } from './Number';
+export { centToDollar } from './Number'
