@@ -14,11 +14,13 @@ class ProductList extends Component {
     this.state = {
       is_filter_visible: false,
       filter_type: null,
+      page: 1,
+      limit: 30,
     }
   }
 
   componentDidMount() {
-    this.props.getBatchProduct(this.state.filter_type)
+    this._loadProduct()
   }
 
   _renderProduct = ({ item }) => (
@@ -40,8 +42,25 @@ class ProductList extends Component {
       is_filter_visible: false,
       filter_type: type
     }, () => {
-      this.props.getBatchProduct(this.state.filter_type)    // get sorted product list
+      this._loadProduct()                   // get sorted product list
     })
+  }
+
+  // get more product each time user sees the end of product list
+  _onLoadMore() {
+    this.setState((prev) => {
+      return { page: prev.page + 1 }
+    }, () => {
+      this._loadProduct()
+    })
+  }
+
+  // call api to get product
+  _loadProduct() {
+    let param = '_page=' + this.state.page +
+                '&_limit=' + this.state.limit +
+                ( this.state.filter_type !== null ? '&_sort=' + this.state.filter_type : '' )
+    this.props.getBatchProduct(param)
   }
 
   render() {
@@ -53,6 +72,7 @@ class ProductList extends Component {
             data={this.props.product}
             renderItem={this._renderProduct}
             keyExtractor={(item, index) => item.id}
+            onEndReached={() => this._onLoadMore()}
           />
         </View>
         <View style={styles.buttonContainer}>
