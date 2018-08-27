@@ -1,8 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native'
-import { Colors } from 'Config'
-
-export const deviceHeight = Dimensions.get('window').height
-export const deviceWidth = Dimensions.get('window').width
+import { Colors, Metrics } from 'Config'
 
 export default StyleSheet.create({
   listContainer: {
@@ -45,7 +42,7 @@ export default StyleSheet.create({
   },
   itemContainer: {
     flex: 1,
-    height: deviceHeight / 100 * 30,
+    height: Metrics.height / 100 * 30,
     alignItems: 'center',
     backgroundColor: 'white',
     marginVertical: 6,

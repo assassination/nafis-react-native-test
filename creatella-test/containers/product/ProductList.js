@@ -6,7 +6,7 @@ import { centToDollar, getRelativeDate } from 'Utils'
 import { Images } from 'Config'
 
 import { getBatchProduct, reset } from 'Redux/reducer'
-import { ModalFilter } from 'Component'
+import { ModalSort } from 'Component'
 
 class ProductList extends Component {
 
@@ -114,11 +114,11 @@ class ProductList extends Component {
           <TouchableOpacity
             onPress={() => this._onShowFilter()}
             style={styles.button}>
-            <Text style={styles.buttonTitle}>FILTER</Text>
+            <Text style={styles.buttonTitle}>SORT</Text>
             <Image source={Images.sort} style={styles.buttonImage} />
           </TouchableOpacity>
         </View>
-        <ModalFilter
+        <ModalSort
           isVisible={this.state.is_filter_visible}
           closeModal={(type) => this._onFilterChanged(type)}
           onFilterActive={(filter) => this._onFilterChanged(filter)}/>

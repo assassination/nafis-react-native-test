@@ -1,3 +1,3 @@
-import ModalFilter from './ModalFilter'
+import ModalSort from './ModalSort'
 
-export { ModalFilter }
+export { ModalSort }

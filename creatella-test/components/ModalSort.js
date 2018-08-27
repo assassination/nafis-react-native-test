@@ -1,22 +1,42 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Modal, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Modal, Text, TouchableOpacity, Dimensions } from 'react-native'
 import PropTypes from 'prop-types'
+import { Colors, Metrics } from 'Config'
 
 /*
-* Modal showing option of filter
+* Modal showing option of sort
 */
-export default class ModalFilter extends Component {
+export default class ModalSort extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      filter_selected: null,
+      sort_selected: null,
     }
   }
 
-  // user choose one of filter
-  _onFilterChanged(type) {
-    this.setState({ filter_selected: type })
+  // user choose one of sorting options
+  _onSortingChanged(type) {
+    this.setState({ sort_selected: type })
+  }
+
+  // select style for sorting options container, depending on whether is being selected or not
+  _getStyleButton(tipe) {
+    let bgColor
+    switch (tipe) {
+      case 'size': bgColor = Colors.theme; break;
+      case 'price': bgColor = Colors.themeHighlight; break;
+      case 'id': bgColor = Colors.themeDark; break;
+      default: bgColor = Colors.theme; break;
+    }
+    return this.state.sort_selected === tipe ?
+              [ styles.sortItemSelected, {backgroundColor: bgColor} ] :
+              styles.sortItem
+  }
+
+  // select style for sorting options title, depending on whether is being selected or not
+  _getStyleButtonTitle(tipe) {
+    return this.state.sort_selected === tipe ? styles.titleItemSelected : styles.titleItem
   }
 
   render() {
@@ -28,27 +48,29 @@ export default class ModalFilter extends Component {
         onRequestClose={() => this.props.onModalClosed()}>
         <View style={styles.container}>
 
-          <Text style={styles.title}>Filter by</Text>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Sort by</Text>
+          </View>
 
-          <View style={styles.filterContainer}>
+          <View style={styles.sortContainer}>
             <TouchableOpacity
-              onPress={() => this._onFilterChanged('size')}
-              style={this.state.filter_selected === 'size' ? styles.filterItemSelected : styles.filterItem}>
-              <Text style={this.state.filter_selected === 'size' ? styles.titleItemSelected : styles.titleItem}>
+              onPress={() => this._onSortingChanged('size')}
+              style={this._getStyleButton('size')}>
+              <Text style={this._getStyleButtonTitle('size')}>
                 size
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => this._onFilterChanged('price')}
-              style={this.state.filter_selected === 'price' ? styles.filterItemSelected : styles.filterItem}>
-              <Text style={this.state.filter_selected === 'price' ? styles.titleItemSelected : styles.titleItem}>
+              onPress={() => this._onSortingChanged('price')}
+              style={this._getStyleButton('price')}>
+              <Text style={this._getStyleButtonTitle('price')}>
                 price
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => this._onFilterChanged('id')}
-              style={this.state.filter_selected === 'id' ? styles.filterItemSelected : styles.filterItem}>
-              <Text style={this.state.filter_selected === 'id' ? styles.titleItemSelected : styles.titleItem}>
+              onPress={() => this._onSortingChanged('id')}
+              style={this._getStyleButton('id')}>
+              <Text style={this._getStyleButtonTitle('id')}>
                 id
               </Text>
             </TouchableOpacity>
@@ -56,7 +78,7 @@ export default class ModalFilter extends Component {
 
           <View style={styles.buttonContainer}>
             <TouchableOpacity
-              onPress={() => this.props.closeModal(this.state.filter_selected)}
+              onPress={() => this.props.closeModal(this.state.sort_selected)}
               style={styles.button}>
               <Text style={styles.buttonTitle}>OK</Text>
             </TouchableOpacity>
@@ -74,7 +96,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 200,
+    height: Metrics.baseHeight * 30,
     elevation: 5,
     shadowOffset: {
       width: 0,
@@ -86,17 +108,25 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     backgroundColor: 'white',
   },
+  titleContainer: {
+    flex: 0.25,
+    backgroundColor: 'white',
+  },
   title: {
     alignSelf: 'center',
-    fontSize: 17,
+    fontSize: 18,
+    fontWeight: 'bold',
     marginTop: 10,
+    color: Colors.themeDark,
   },
-  filterContainer: {
-    flex: 2,
+  sortContainer: {
+    flex: 0.5,
     flexDirection: 'row',
+    alignItems: 'center',
     marginVertical: 15,
+    backgroundColor: 'white'
   },
-  filterItem: {
+  sortItem: {
     flex: 1,
     marginVertical: 5,
     marginHorizontal: 8,
@@ -113,31 +143,31 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     borderRadius: 20,
   },
-  filterItemSelected: {
+  sortItemSelected: {
     flex: 1,
     marginVertical: 5,
     marginHorizontal: 8,
     height: 40,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'blue',
     borderRadius: 20,
   },
   titleItemSelected: {
     color: 'white'
   },
   titleItem: {
-
+    color: Colors.themeDark
   },
   buttonContainer: {
-    flex: 1,
+    flex: 0.25,
+    flexBasis: 20,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'stretch',
   },
   button: {
     flex: 1,
-    backgroundColor: 'blue',
+    backgroundColor: Colors.themeButton,
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -146,7 +176,7 @@ const styles = StyleSheet.create({
   }
 })
 
-ModalFilter.propTypes = {
+ModalSort.propTypes = {
   isVisible: PropTypes.bool,                  // should modal shown or not
   closeModal: PropTypes.func.isRequired,      // close the modal
 }
