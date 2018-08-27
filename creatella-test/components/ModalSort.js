@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Modal, Text, TouchableOpacity, Dimensions } from 'react-native'
+import { StyleSheet, View, Modal, Text, TouchableOpacity, Dimensions, Image } from 'react-native'
 import PropTypes from 'prop-types'
-import { Colors, Metrics } from 'Config'
+import { Colors, Metrics, Images } from 'Config'
 
 /*
 * Modal showing option of sort
@@ -37,6 +37,11 @@ export default class ModalSort extends Component {
   // select style for sorting options title, depending on whether is being selected or not
   _getStyleButtonTitle(tipe) {
     return this.state.sort_selected === tipe ? styles.titleItemSelected : styles.titleItem
+  }
+
+  // unselect any selected sorting option
+  _onCancelSorting() {
+    this.setState({ sort_selected: null })
   }
 
   render() {
@@ -78,9 +83,17 @@ export default class ModalSort extends Component {
 
           <View style={styles.buttonContainer}>
             <TouchableOpacity
+              onPress={() => {
+                this._onCancelSorting()
+                this.props.closeModal(null)
+              }}
+              style={styles.buttonCancel}>
+              <Text style={styles.buttonTitle}>CLEAR</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
               onPress={() => this.props.closeModal(this.state.sort_selected)}
-              style={styles.button}>
-              <Text style={styles.buttonTitle}>OK</Text>
+              style={styles.buttonOk}>
+              <Text style={styles.buttonTitle}>SORT</Text>
             </TouchableOpacity>
           </View>
 
@@ -110,6 +123,8 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     flex: 0.25,
+    flexDirection: 'row',
+    justifyContent: 'center',
     backgroundColor: 'white',
   },
   title: {
@@ -165,14 +180,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
   },
-  button: {
+  buttonOk: {
     flex: 1,
     backgroundColor: Colors.themeButton,
     alignItems: 'center',
     justifyContent: 'center'
   },
+  buttonCancel: {
+    flex: 1,
+    backgroundColor: Colors.themeLight,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   buttonTitle: {
-    color: 'white'
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold'
   }
 })
 
