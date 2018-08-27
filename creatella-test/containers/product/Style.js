@@ -9,14 +9,36 @@ export default StyleSheet.create({
     flex: 1,
   },
   buttonContainer: {
-    flex: 0.08,
+    flex: 0.09,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'stretch'
+    alignItems: 'stretch',
+    elevation: 5,
+    shadowColor: Colors.themeLight,
+    shadowOffset: {
+      width: 0,
+      height: -2,
+    },
+    shadowRadius: 6,
+    shadowOpacity: 0.5,
   },
   button: {
     flex: 1,
-    backgroundColor: 'blue'
+    flexDirection: 'row',
+    backgroundColor: Colors.white,
+    justifyContent: 'center',
+  },
+  buttonTitle: {
+    color: Colors.themeDark,
+    alignSelf: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  buttonImage: {
+    width: 20,
+    height: 20,
+    marginLeft: 5,
+    alignSelf: 'center',
   },
   itemWrapper: {
     paddingRight: 12,

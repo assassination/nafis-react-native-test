@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { View, Text, FlatList, StyleSheet, Modal, TouchableOpacity } from 'react-native'
+import { View, Text, FlatList, StyleSheet, Modal, TouchableOpacity, Image } from 'react-native'
 import { connect } from 'react-redux'
 import styles from './Style'
 import { centToDollar, getRelativeDate } from 'Utils'
+import { Images } from 'Config'
 
 import { getBatchProduct, reset } from 'Redux/reducer'
 import { ModalFilter } from 'Component'
@@ -113,7 +114,8 @@ class ProductList extends Component {
           <TouchableOpacity
             onPress={() => this._onShowFilter()}
             style={styles.button}>
-            <Text>Filter</Text>
+            <Text style={styles.buttonTitle}>FILTER</Text>
+            <Image source={Images.sort} style={styles.buttonImage} />
           </TouchableOpacity>
         </View>
         <ModalFilter
