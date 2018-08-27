@@ -30,15 +30,6 @@ class ProductList extends Component {
     }
   }
 
-  // configure template layout for each product
-  _renderProduct = ({ item }) => (
-    <View style={styles.item}>
-      <Text>{item.face}</Text>
-      <Text>{centToDollar(item.price)}</Text>
-      <Text>{getRelativeDate(item.date)}</Text>
-    </View>
-  )
-
   // show filter options
   _onShowFilter() {
     this.setState({ is_filter_visible: true })
@@ -86,18 +77,35 @@ class ProductList extends Component {
     })
   }
 
+  // configure template layout for each product
+  _renderProduct = ({ item }) => {
+    return (
+      <View style={styles.itemContainer}>
+        <View style={styles.itemFaceContainer}>
+          <Text style={[ styles.itemFace, {fontSize: item.size} ]}> {item.face} </Text>
+        </View>
+        <View style={styles.itemDetailContainer}>
+          <Text style={styles.itemPrice}> {centToDollar(item.price)} </Text>
+          <Text style={styles.itemDate}> {getRelativeDate(item.date)} </Text>
+        </View>
+      </View>
+    )
+  }
+
   render() {
     return (
       <View style={{flex: 1}}>
-        <View style={{flex: 0.93}}>
+        <View style={styles.listContainer}>
           { this.state.product &&                     // show list only if product is not empty
             <FlatList
-              styles={styles.container}
               data={this.state.product}
               renderItem={this._renderProduct}
               keyExtractor={(item, index) => item.id}
               onEndReachedThreshold={0}
               onEndReached={() => this._onEndReached()}
+              numColumns={2}
+              showsVerticalScrollIndicator={false}
+              columnWrapperStyle={styles.itemWrapper}
             />
           }
         </View>

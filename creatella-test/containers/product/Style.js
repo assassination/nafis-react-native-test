@@ -1,9 +1,12 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
+import { Colors } from 'Config'
+
+export const deviceHeight = Dimensions.get('window').height
+export const deviceWidth = Dimensions.get('window').width
 
 export default StyleSheet.create({
-  container: {
+  listContainer: {
     flex: 1,
-    backgroundColor: '#123',
   },
   buttonContainer: {
     flex: 0.08,
@@ -15,9 +18,50 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: 'blue'
   },
-  item: {
-    height: 200,
-    backgroundColor: 'gray',
-
+  itemWrapper: {
+    paddingRight: 12,
+  },
+  itemContainer: {
+    flex: 1,
+    height: deviceHeight / 100 * 30,
+    alignItems: 'center',
+    backgroundColor: 'white',
+    marginVertical: 6,
+    marginLeft: 12,
+    paddingVertical: 20,
+    paddingHorizontal: 12,
+    borderRadius: 5,
+    borderWidth: 0.2,
+    borderColor: 'gray',
+    elevation: 5,
+    shadowColor: Colors.themeLight,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowRadius: 6,
+    shadowOpacity: 0.5,
+  },
+  itemFaceContainer: {
+    flex: 3,
+    justifyContent:'center'
+  },
+  itemDetailContainer: {
+    flex: 1,
+    alignSelf: 'flex-end'
+  },
+  itemPrice: {
+    alignSelf: 'flex-end',
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: Colors.theme,
+  },
+  itemFace: {
+    color: Colors.themeDark
+  },
+  itemDate: {
+    alignSelf: 'flex-end',
+    fontSize: 12,
+    color: Colors.themeLight,
   }
 })

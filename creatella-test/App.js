@@ -20,7 +20,7 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <View style={styles.container}>
+        <View style={{flex: 1}}>
           <ProductList />
         </View>
       </Provider>
