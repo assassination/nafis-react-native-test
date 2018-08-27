@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import styles from './Style'
 import { centToDollar, getRelativeDate } from 'Utils'
 
-import { getBatchProduct } from 'Redux/reducer'
+import { getBatchProduct, reset } from 'Redux/reducer'
 import { ModalFilter } from 'Component'
 
 class ProductList extends Component {
@@ -20,7 +20,7 @@ class ProductList extends Component {
   }
 
   componentDidMount() {
-    this._loadProduct()
+    this._loadProduct()                     // get first batch of product to be displayed initially
   }
 
   _renderProduct = ({ item }) => (
@@ -40,9 +40,11 @@ class ProductList extends Component {
   _onFilterChanged(type) {
     this.setState({
       is_filter_visible: false,
-      filter_type: type
+      filter_type: type,
+      page: 1,
     }, () => {
-      this._loadProduct()                   // get sorted product list
+      this.props.reset()                    // clear out the already downloaded product list
+      this._loadProduct()                   // repopulate list with the sorted product list
     })
   }
 
@@ -100,7 +102,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  getBatchProduct
+  getBatchProduct,
+  reset
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductList);
