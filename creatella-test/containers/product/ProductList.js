@@ -94,7 +94,8 @@ class ProductList extends Component {
 
 const mapStateToProps = state => {
   return {
-    product: state.data
+    product: state.data,
+    is_batch_complete: state.is_batch_complete,
   }
 }
 

@@ -14,5 +14,10 @@ export default StyleSheet.create({
   button: {
     flex: 1,
     backgroundColor: 'blue'
+  },
+  item: {
+    height: 200,
+    backgroundColor: 'gray',
+
   }
 })
