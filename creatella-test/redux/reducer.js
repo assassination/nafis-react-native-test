@@ -13,7 +13,7 @@ export default function reducer(state = { data: [], error: null, is_batch_comple
       return {
         ...state,
         is_fetching: false,
-        data: !isEmpty(action.payload.data) ? state.data.concat(action.payload.data) : state.data,  // append product to list
+        data: !isEmpty(action.payload.data) ? state.data.concat(action.payload.data) : state.data,  // holds all downloaded product
         is_batch_complete: !isEmpty(action.payload.data) ? false : true,                            // all product has been downloaded
       }
     case GET_BATCH_PRODUCT_FAIL:        // on failed batch loading the product

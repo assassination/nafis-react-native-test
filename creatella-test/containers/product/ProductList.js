@@ -14,15 +14,23 @@ class ProductList extends Component {
     this.state = {
       is_filter_visible: false,
       filter_type: null,
-      page: 1,
-      limit: 30,
+      page: 0,
+      limit: 50,
+      product: []
     }
   }
 
   componentDidMount() {
-    this._loadProduct()                     // get first batch of product to be displayed initially
+    this._loadProduct()                     // get first batch of product to be displayed to user initially
   }
 
+  componentWillReceiveProps(next) {
+    if(this.props.product !== next.product && this.props.product.length === 0) {
+      this._onShowNextBatch(next.product)     // show the first batch of product to user
+    }
+  }
+
+  // configure template layout for each product
   _renderProduct = ({ item }) => (
     <View style={styles.item}>
       <Text>{item.face}</Text>
@@ -41,41 +49,57 @@ class ProductList extends Component {
     this.setState({
       is_filter_visible: false,
       filter_type: type,
-      page: 1,
+      page: 0,
+      product: []
     }, () => {
       this.props.reset()                    // clear out the already downloaded product list
       this._loadProduct()                   // repopulate list with the sorted product list
     })
   }
 
-  // get more product each time user sees the end of product list
-  _onLoadMore() {
-    this.setState((prev) => {
-      return { page: prev.page + 1 }
-    }, () => {
-      this._loadProduct()
+  // if the user reach the end of list
+  _onEndReached() {
+    this._onShowNextBatch(this.props.product)                           // show next batch each time user reach the end of list
+  }
+
+  // show the next batch of product to user
+  _onShowNextBatch(newProduct) {
+    if(this.state.product.length % this.state.limit === 0) {
+      this._loadProduct()                                               // every 50 product shown to user, call api to fetch next 50 batch
+    }
+    this.setState((prevState) => {
+      let productTotal = prevState.product.length                       // total product shown to user
+      let newBatch = newProduct.slice(productTotal, productTotal + 10)  // obtain subsequent batch from redux
+      return { product: prevState.product.concat(newBatch) }            // show new batch to user
     })
   }
 
-  // call api to get product
+  // call api to batch load the product list
   _loadProduct() {
-    let param = '_page=' + this.state.page +
-                '&_limit=' + this.state.limit +
-                ( this.state.filter_type !== null ? '&_sort=' + this.state.filter_type : '' )
-    this.props.getBatchProduct(param)
+    this.setState((prev) => {
+      return { page: prev.page + 1 }                                    // make sure subsequent batch to be downloaded
+    }, () => {
+      let param = '_page=' + this.state.page +
+                  '&_limit=' + this.state.limit +
+                  ( this.state.filter_type !== null ? '&_sort=' + this.state.filter_type : '' )
+      this.props.getBatchProduct(param)                                 // start api call
+    })
   }
 
   render() {
     return (
       <View style={{flex: 1}}>
         <View style={{flex: 0.93}}>
-          <FlatList
-            styles={styles.container}
-            data={this.props.product}
-            renderItem={this._renderProduct}
-            keyExtractor={(item, index) => item.id}
-            onEndReached={() => this._onLoadMore()}
-          />
+          { this.state.product &&                     // show list only if product is not empty
+            <FlatList
+              styles={styles.container}
+              data={this.state.product}
+              renderItem={this._renderProduct}
+              keyExtractor={(item, index) => item.id}
+              onEndReachedThreshold={0}
+              onEndReached={() => this._onEndReached()}
+            />
+          }
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
