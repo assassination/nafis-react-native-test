@@ -96,5 +96,8 @@ export default StyleSheet.create({
   },
   loadingDot: {
     fontSize: 36,
+  },
+  loadingFooterDot: {
+    fontSize: 35,
   }
 })

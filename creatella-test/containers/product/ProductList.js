@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, FlatList, StyleSheet, Modal, TouchableOpacity, Image } from 'react-native'
+import { View, Text, FlatList, StyleSheet, Modal, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
 import { connect } from 'react-redux'
 import styles from './Style'
 import { centToDollar, getRelativeDate } from 'Utils'
@@ -93,6 +93,15 @@ class ProductList extends Component {
     )
   }
 
+  // configure footer layout below the product list
+  _renderFooter = () => {
+    return (  // show loading screen while preparing next batch to show on screen
+      <View style={styles.loadingContainer}>
+        <LoadingDot style={styles.loadingFooterDot} numberOfDots={5} animationDelay={150} />
+      </View>
+    )
+  }
+
   render() {
     if(!this.state.is_fetching && this.state.product.length > 0) {  // show list only if product is not empty
       return (
@@ -107,6 +116,7 @@ class ProductList extends Component {
               numColumns={2}
               showsVerticalScrollIndicator={false}
               columnWrapperStyle={styles.itemWrapper}
+              ListFooterComponent={this._renderFooter}
             />
           </View>
           <View style={styles.buttonContainer}>
@@ -137,9 +147,9 @@ class ProductList extends Component {
 
 const mapStateToProps = state => {
   return {
-    product: state.data,
-    is_fetching: state.is_fetching,
-    is_batch_complete: state.is_batch_complete,
+    product: state.data,                          // holds all product item
+    is_fetching: state.is_fetching,               // indicate whether now is still fetching or not
+    is_batch_complete: state.is_batch_complete,   // indicate whether all batch is fetched succesfully or not
   }
 }
 
