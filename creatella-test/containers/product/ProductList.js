@@ -6,7 +6,7 @@ import { centToDollar, getRelativeDate } from 'Utils'
 import { Images } from 'Config'
 
 import { getBatchProduct, reset } from 'Redux/reducer'
-import { ModalSort } from 'Component'
+import { ModalSort, LoadingDot } from 'Component'
 
 class ProductList extends Component {
 
@@ -94,10 +94,10 @@ class ProductList extends Component {
   }
 
   render() {
-    return (
-      <View style={{flex: 1}}>
-        <View style={styles.listContainer}>
-          { this.state.product &&                     // show list only if product is not empty
+    if(!this.state.is_fetching && this.state.product.length > 0) {  // show list only if product is not empty
+      return (
+        <View style={{flex: 1}}>
+          <View style={styles.listContainer}>
             <FlatList
               data={this.state.product}
               renderItem={this._renderProduct}
@@ -108,22 +108,29 @@ class ProductList extends Component {
               showsVerticalScrollIndicator={false}
               columnWrapperStyle={styles.itemWrapper}
             />
-          }
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity     // button to open modal for choosing sorting option
+              onPress={() => this._onShowFilter()}
+              style={styles.button}>
+              <Text style={styles.buttonTitle}>SORT</Text>
+              <Image source={Images.sort} style={styles.buttonImage} />
+            </TouchableOpacity>
+          </View>
+          <ModalSort      // show modal to display sorting option
+            isVisible={this.state.is_filter_visible}
+            closeModal={(type) => this._onFilterChanged(type)}
+            onFilterActive={(filter) => this._onFilterChanged(filter)}/>
         </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => this._onShowFilter()}
-            style={styles.button}>
-            <Text style={styles.buttonTitle}>SORT</Text>
-            <Image source={Images.sort} style={styles.buttonImage} />
-          </TouchableOpacity>
+      )
+    } else {      // show loading screen, while fetching initial batch
+      return (
+        <View style={styles.loadingContainer}>
+          <Text style={styles.loadingTitle}>Loading</Text>
+          <LoadingDot style={styles.loadingDot} />
         </View>
-        <ModalSort
-          isVisible={this.state.is_filter_visible}
-          closeModal={(type) => this._onFilterChanged(type)}
-          onFilterActive={(filter) => this._onFilterChanged(filter)}/>
-      </View>
-    )
+      )
+    }
   }
 
 }
@@ -131,6 +138,7 @@ class ProductList extends Component {
 const mapStateToProps = state => {
   return {
     product: state.data,
+    is_fetching: state.is_fetching,
     is_batch_complete: state.is_batch_complete,
   }
 }

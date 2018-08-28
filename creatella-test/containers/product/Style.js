@@ -82,5 +82,19 @@ export default StyleSheet.create({
     alignSelf: 'flex-end',
     fontSize: 12,
     color: Colors.themeLight,
+  },
+  loadingContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loadingTitle: {
+    color: Colors.themeDark,
+    fontSize: 36,
+    fontWeight: 'bold',
+  },
+  loadingDot: {
+    fontSize: 36,
   }
 })

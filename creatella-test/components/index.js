@@ -1,3 +1,4 @@
 import ModalSort from './ModalSort'
+import LoadingDot from './LoadingDot'
 
-export { ModalSort }
+export { ModalSort, LoadingDot }
