@@ -93,13 +93,23 @@ class ProductList extends Component {
     )
   }
 
-  // configure footer layout below the product list
+  // configure layout below the product list
   _renderFooter = () => {
-    return (  // show loading screen while preparing next batch to show on screen
-      <View style={styles.loadingContainer}>
-        <LoadingDot style={styles.loadingFooterDot} numberOfDots={5} animationDelay={150} />
-      </View>
-    )
+    if( !this.props.is_batch_complete ||    // show loading screen while preparing next batch to show on screen
+        this.state.product.length < this.props.product.length ) {
+      return (
+        <View style={styles.loadingContainer}>
+          <LoadingDot style={styles.loadingFooterDot} numberOfDots={5} animationDelay={150} />
+        </View>
+      )
+    }
+    else {    // show message after reaching the final batch
+      return (
+        <View style={styles.loadingContainer}>
+          <Text style={styles.loadingFooterTitle}>~ End of Catalogue ~</Text>
+        </View>
+      )
+    }
   }
 
   render() {

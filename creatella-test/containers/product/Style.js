@@ -94,6 +94,11 @@ export default StyleSheet.create({
     fontSize: 36,
     fontWeight: 'bold',
   },
+  loadingFooterTitle: {
+    color: Colors.themeLight,
+    fontSize: 16,
+    marginVertical: 15,
+  },
   loadingDot: {
     fontSize: 36,
   },
