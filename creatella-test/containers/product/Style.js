@@ -61,6 +61,26 @@ export default StyleSheet.create({
     shadowRadius: 6,
     shadowOpacity: 0.5,
   },
+  adsContainer: {
+    flex: 1,
+    height: Metrics.height / 100 * 30,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    marginVertical: 6,
+    marginLeft: 12,
+    paddingHorizontal: 12,
+    borderRadius: 5,
+    borderWidth: 0.2,
+    borderColor: 'gray',
+    elevation: 5,
+    shadowColor: Colors.themeLight,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowRadius: 6,
+    shadowOpacity: 0.5,
+  },
   itemFaceContainer: {
     flex: 3,
     justifyContent:'center'

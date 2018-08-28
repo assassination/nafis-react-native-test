@@ -8,8 +8,10 @@ import axiosMiddleware from 'redux-axios-middleware'
 import reducer from 'Redux/reducer'
 import ProductList from 'Container/product/ProductList'
 
+import { Projects } from 'Config'
+
 const client = axios.create({
-  baseURL: 'http://localhost:3000/',
+  baseURL: Projects.baseURL,
   responseType: 'json'
 })
 

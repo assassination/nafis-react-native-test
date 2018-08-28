@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { View, Text, FlatList, StyleSheet, Modal, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
 import { connect } from 'react-redux'
+import FlexImage from 'react-native-flex-image'
 import styles from './Style'
-import { centToDollar, getRelativeDate } from 'Utils'
-import { Images } from 'Config'
+import { centToDollar, getRelativeDate, getRandomNonDuplicate } from 'Utils'
+import { Images, Colors, Projects } from 'Config'
 
 import { getBatchProduct, reset } from 'Redux/reducer'
 import { ModalSort, LoadingDot } from 'Component'
@@ -16,8 +17,9 @@ class ProductList extends Component {
       is_filter_visible: false,
       filter_type: null,
       page: 0,
-      limit: 50,
-      product: []
+      limit: Projects.fetch_limit,
+      product: [],
+      prev_ads: -1,
     }
   }
 
@@ -56,13 +58,35 @@ class ProductList extends Component {
 
   // show the next batch of product to user
   _onShowNextBatch(newProduct) {
-    if(this.state.product.length % this.state.limit === 0) {
-      this._loadProduct()                                               // every 50 product shown to user, call api to fetch next 50 batch
+    let adsSize = Math.floor(this.state.product.length / Projects.ads_interval) // the amount of ads which has been shown to user
+    let productTotal = this.state.product.length - adsSize   // the total product shown to user (except ads)
+
+    // every 50 product shown, do pre-emptive fetch on the next 50 products
+    if(productTotal % this.state.limit === 0) {
+      this._loadProduct()
     }
+
+    // get the subsequent batch from pre-emptive fetch which will be shown to user
+    let newBatch = newProduct.slice(productTotal, productTotal + Projects.batch_limit)
+
+    // adding ads on every 20 products shown
+    if((productTotal + Projects.batch_limit) % Projects.ads_interval === 0) {   // check whether needs to add the ads or not
+      let adsIndex, isValidIndex = false
+      // generate ads which differs with previous ads
+      while(!isValidIndex) {
+        let randomIndex = Math.floor( Math.random() * 1000 )
+        if((this.state.prev_ads % 10) !== (randomIndex % 10)) {
+          adsIndex = randomIndex
+          isValidIndex = true
+        }
+      }
+      // adding ads to product list
+      let adsItem = { url: Projects.adsURL + adsIndex }
+      newBatch = newBatch.concat(adsItem)
+    }
+
     this.setState((prevState) => {
-      let productTotal = prevState.product.length                       // total product shown to user
-      let newBatch = newProduct.slice(productTotal, productTotal + 10)  // obtain subsequent batch from redux
-      return { product: prevState.product.concat(newBatch) }            // show new batch to user
+      return { product: prevState.product.concat(newBatch) }      // show latest batch to user
     })
   }
 
@@ -80,17 +104,28 @@ class ProductList extends Component {
 
   // configure template layout for each product
   _renderProduct = ({ item }) => {
-    return (
-      <View style={styles.itemContainer}>
-        <View style={styles.itemFaceContainer}>
-          <Text style={[ styles.itemFace, {fontSize: item.size} ]}> {item.face} </Text>
+    if(item.hasOwnProperty('face')) {     // show product
+      return (
+        <View style={styles.itemContainer}>
+          <View style={styles.itemFaceContainer}>
+            <Text style={[ styles.itemFace, {fontSize: item.size} ]}> {item.face} </Text>
+          </View>
+          <View style={styles.itemDetailContainer}>
+            <Text style={styles.itemPrice}> {centToDollar(item.price)} </Text>
+            <Text style={styles.itemDate}> {getRelativeDate(item.date)} </Text>
+          </View>
         </View>
-        <View style={styles.itemDetailContainer}>
-          <Text style={styles.itemPrice}> {centToDollar(item.price)} </Text>
-          <Text style={styles.itemDate}> {getRelativeDate(item.date)} </Text>
+      )
+    } else {                              // show ads
+      return (
+        <View style={styles.adsContainer}>
+          <FlexImage
+            loadingComponent={<ActivityIndicator color={Colors.theme} />}
+            source={{ uri: item.url }}
+          />
         </View>
-      </View>
-    )
+      )
+    }
   }
 
   // configure layout below the product list
