@@ -149,12 +149,10 @@ class ProductList extends Component {
   }
 
   render() {
-    if(!this.state.is_fetching && this.state.product.length > 0) {  // show list only if product is not empty
-      return (
-        <View style={{flex: 1}}>
-          <View style={styles.headerContainer}>
-            <Text style={styles.headerTitle}>Buy My Faces</Text>
-          </View>
+    let content, buttonSort
+    // show product list only if product is not empty
+    if(!this.state.is_fetching && this.state.product.length > 0) {
+      content =
           <View style={styles.listContainer}>
             <FlatList     // product list
               data={this.state.product}
@@ -168,28 +166,41 @@ class ProductList extends Component {
               ListFooterComponent={this._renderFooter}
             />
           </View>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity     // button to open modal for choosing sorting option
-              onPress={() => this._onShowFilter()}
-              style={styles.button}>
-              <Text style={styles.buttonTitle}>SORT</Text>
-              <Image source={Images.sort} style={styles.buttonImage} />
-            </TouchableOpacity>
-          </View>
-          <ModalSort      // show modal to display sorting option
-            isVisible={this.state.is_filter_visible}
-            closeModal={(type) => this._onFilterChanged(type)}
-            onFilterActive={(filter) => this._onFilterChanged(filter)}/>
+      buttonSort =
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity     // button to open modal for choosing sorting option
+            onPress={() => this._onShowFilter()}
+            style={styles.button}>
+            <Text style={styles.buttonTitle}>SORT</Text>
+            <Image source={Images.sort} style={styles.buttonImage} />
+          </TouchableOpacity>
         </View>
-      )
-    } else {      // show loading screen, while fetching initial batch
-      return (
-        <View style={styles.loadingContainer}>
-          <Text style={styles.loadingTitle}>Loading</Text>
-          <LoadingDot style={styles.loadingDot} />
-        </View>
-      )
     }
+    // show loading screen, while fetching or resorting product list
+    else {
+      content =
+          <View style={styles.loadingContainer}>
+            <Text style={styles.loadingTitle}>Loading</Text>
+            <LoadingDot style={styles.loadingDot} />
+          </View>
+      buttonSort =
+          <View style={styles.buttonContainer}>
+            <LoadingDot style={styles.loadingDot} />
+          </View>
+    }
+    return (
+      <View style={{flex: 1}}>
+        <View style={styles.headerContainer}>
+          <Text style={styles.headerTitle}>Buy My Faces</Text>
+        </View>
+        { content }     
+        { buttonSort }
+        <ModalSort      // show modal to display sorting option
+          isVisible={this.state.is_filter_visible}
+          closeModal={(type) => this._onFilterChanged(type)}
+          onFilterActive={(filter) => this._onFilterChanged(filter)}/>
+      </View>
+    )
   }
 
 }

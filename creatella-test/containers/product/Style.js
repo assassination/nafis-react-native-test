@@ -14,13 +14,14 @@ export default StyleSheet.create({
       height: 2,
     },
     shadowRadius: 6,
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.5,
   },
   headerTitle: {
     color: Colors.themeDark,
     fontSize: 20,
     alignSelf: 'center',
     paddingBottom: 10,
+    fontWeight: '500',
   },
   listContainer: {
     flex: 1,
@@ -32,6 +33,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'stretch',
+    backgroundColor: Colors.white,
     elevation: 5,
     shadowColor: Colors.themeLight,
     shadowOffset: {
@@ -44,14 +46,13 @@ export default StyleSheet.create({
   button: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: Colors.white,
     justifyContent: 'center',
   },
   buttonTitle: {
     color: Colors.themeDark,
     alignSelf: 'center',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
   buttonImage: {
     width: 20,
@@ -146,5 +147,8 @@ export default StyleSheet.create({
   },
   loadingFooterDot: {
     fontSize: 35,
+  },
+  loadingButton: {
+    fontSize: 14,
   }
 })
