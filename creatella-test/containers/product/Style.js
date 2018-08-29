@@ -2,12 +2,15 @@ import { StyleSheet, Dimensions } from 'react-native'
 import { Colors, Metrics } from 'Config'
 
 export default StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   headerContainer: {
-    flex: 0.11,
-    flexDirection: 'row',
+    flex: 0.25,
+    flexBasis: 15,
+    flexDirection: 'column',
     alignItems: 'flex-end',
     paddingBottom: 10,
-    flexBasis: 10,
     backgroundColor: Colors.white,
     elevation: 5,
     shadowColor: Colors.themeLight,
@@ -17,6 +20,12 @@ export default StyleSheet.create({
     },
     shadowRadius: 6,
     shadowOpacity: 0.5,
+  },
+  headerTitleContainer: {
+    flex: 1,
+    flexDirection:'row',
+    alignItems: 'flex-end',
+    paddingBottom: 10,
   },
   headerTitle: {
     flex: 1,
@@ -39,12 +48,6 @@ export default StyleSheet.create({
     alignSelf: 'center',
     fontSize: 16,
     fontWeight: '600',
-  },
-  buttonImage: {
-    width: 20,
-    height: 20,
-    marginLeft: 5,
-    alignSelf: 'center',
   },
   itemWrapper: {
     paddingRight: 12,

@@ -1,4 +1,4 @@
-import ModalSort from './ModalSort'
+import SortCheckBox from './SortCheckBox'
 import LoadingDot from './LoadingDot'
 
-export { ModalSort, LoadingDot }
+export { SortCheckBox, LoadingDot }

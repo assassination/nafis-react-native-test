@@ -7,14 +7,13 @@ import { centToDollar, getRelativeDate, getRandomNonDuplicate } from 'Utils'
 import { Images, Colors, Projects } from 'Config'
 
 import { getBatchProduct, reset } from 'Redux/reducer'
-import { ModalSort, LoadingDot } from 'Component'
+import { SortCheckBox, LoadingDot } from 'Component'
 
 class ProductList extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      is_filter_visible: false,
       filter_type: null,
       page: 0,
       limit: Projects.fetch_limit,
@@ -33,15 +32,9 @@ class ProductList extends Component {
     }
   }
 
-  // show filter options
-  _onShowFilter() {
-    this.setState({ is_filter_visible: true })
-  }
-
   // when user finished choosing one of the filter
   _onFilterChanged(type) {
     this.setState({
-      is_filter_visible: false,
       filter_type: type,
       page: 0,
       product: []
@@ -176,20 +169,15 @@ class ProductList extends Component {
           </View>
     }
     return (
-      <View style={{flex: 1}}>
+      <View style={styles.container}>
         <View style={styles.headerContainer}>
-          <Text style={styles.headerTitle}>Buy My Faces</Text>
-          <TouchableOpacity     // button to open modal for choosing sorting option
-            onPress={() => this._onShowFilter()}
-            style={styles.button}>
-            <Image source={Images.sort} style={styles.buttonImage} />
-          </TouchableOpacity>
+          <View style={styles.headerTitleContainer}>
+            <Text style={styles.headerTitle}>Buy My Faces</Text>
+          </View>
+          <SortCheckBox      // displaying sorting option
+            onSortingChanged={(type) => this._onFilterChanged(type)}/>
         </View>
         { content }
-        <ModalSort      // show modal to display sorting option
-          isVisible={this.state.is_filter_visible}
-          closeModal={(type) => this._onFilterChanged(type)}
-          onFilterActive={(filter) => this._onFilterChanged(filter)}/>
       </View>
     )
   }
