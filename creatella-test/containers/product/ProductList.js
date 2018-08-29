@@ -152,8 +152,11 @@ class ProductList extends Component {
     if(!this.state.is_fetching && this.state.product.length > 0) {  // show list only if product is not empty
       return (
         <View style={{flex: 1}}>
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerTitle}>Buy My Faces</Text>
+          </View>
           <View style={styles.listContainer}>
-            <FlatList
+            <FlatList     // product list
               data={this.state.product}
               renderItem={this._renderProduct}
               keyExtractor={(item, index) => item.id}

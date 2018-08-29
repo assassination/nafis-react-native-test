@@ -2,11 +2,33 @@ import { StyleSheet, Dimensions } from 'react-native'
 import { Colors, Metrics } from 'Config'
 
 export default StyleSheet.create({
+  headerContainer: {
+    flex: 0.12,
+    flexBasis: 10,
+    backgroundColor: Colors.white,
+    justifyContent: 'flex-end',
+    elevation: 5,
+    shadowColor: Colors.themeLight,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowRadius: 6,
+    shadowOpacity: 0.3,
+  },
+  headerTitle: {
+    color: Colors.themeDark,
+    fontSize: 20,
+    alignSelf: 'center',
+    paddingBottom: 10,
+  },
   listContainer: {
     flex: 1,
+    paddingTop: 5,
   },
   buttonContainer: {
     flex: 0.09,
+    flexBasis: 10,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'stretch',
