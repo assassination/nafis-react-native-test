@@ -166,15 +166,6 @@ class ProductList extends Component {
               ListFooterComponent={this._renderFooter}
             />
           </View>
-      buttonSort =
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity     // button to open modal for choosing sorting option
-            onPress={() => this._onShowFilter()}
-            style={styles.button}>
-            <Text style={styles.buttonTitle}>SORT</Text>
-            <Image source={Images.sort} style={styles.buttonImage} />
-          </TouchableOpacity>
-        </View>
     }
     // show loading screen, while fetching or resorting product list
     else {
@@ -183,18 +174,18 @@ class ProductList extends Component {
             <Text style={styles.loadingTitle}>Loading</Text>
             <LoadingDot style={styles.loadingDot} />
           </View>
-      buttonSort =
-          <View style={styles.buttonContainer}>
-            <LoadingDot style={styles.loadingDot} />
-          </View>
     }
     return (
       <View style={{flex: 1}}>
         <View style={styles.headerContainer}>
           <Text style={styles.headerTitle}>Buy My Faces</Text>
+          <TouchableOpacity     // button to open modal for choosing sorting option
+            onPress={() => this._onShowFilter()}
+            style={styles.button}>
+            <Image source={Images.sort} style={styles.buttonImage} />
+          </TouchableOpacity>
         </View>
-        { content }     
-        { buttonSort }
+        { content }
         <ModalSort      // show modal to display sorting option
           isVisible={this.state.is_filter_visible}
           closeModal={(type) => this._onFilterChanged(type)}

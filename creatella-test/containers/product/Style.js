@@ -3,10 +3,12 @@ import { Colors, Metrics } from 'Config'
 
 export default StyleSheet.create({
   headerContainer: {
-    flex: 0.12,
+    flex: 0.11,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    paddingBottom: 10,
     flexBasis: 10,
     backgroundColor: Colors.white,
-    justifyContent: 'flex-end',
     elevation: 5,
     shadowColor: Colors.themeLight,
     shadowOffset: {
@@ -17,36 +19,20 @@ export default StyleSheet.create({
     shadowOpacity: 0.5,
   },
   headerTitle: {
+    flex: 1,
+    textAlign: 'center',
     color: Colors.themeDark,
     fontSize: 20,
-    alignSelf: 'center',
-    paddingBottom: 10,
     fontWeight: '500',
   },
   listContainer: {
     flex: 1,
     paddingTop: 5,
   },
-  buttonContainer: {
-    flex: 0.09,
-    flexBasis: 10,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'stretch',
-    backgroundColor: Colors.white,
-    elevation: 5,
-    shadowColor: Colors.themeLight,
-    shadowOffset: {
-      width: 0,
-      height: -2,
-    },
-    shadowRadius: 6,
-    shadowOpacity: 0.5,
-  },
   button: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
+    position: 'absolute',
+    right: 12,
+    bottom: 10,
   },
   buttonTitle: {
     color: Colors.themeDark,
@@ -150,5 +136,11 @@ export default StyleSheet.create({
   },
   loadingButton: {
     fontSize: 14,
+  },
+  sortInfo: {
+    textAlign: 'right',
+    color: Colors.themeLight,
+    paddingRight: 15,
+    backgroundColor: Colors.white,
   }
 })
