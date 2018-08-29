@@ -14,33 +14,32 @@ class ProductList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      filter_type: null,
-      page: 0,
-      limit: Projects.fetch_limit,
-      product: [],
-      prev_ads: -1,
+      sort_type_selected: null,      // selected product sorting options
+      page: 0,              // batch index of product list
+      product: [],          // data source for product list
+      prev_ads: -1,         // previous ads
     }
   }
 
   componentDidMount() {
-    this._loadProduct()                     // get first batch of product to be displayed to user initially
+    this._fetchProductList()                     // get first batch of product to be displayed to user initially
   }
 
   componentWillReceiveProps(next) {
     if(this.props.product !== next.product && this.props.product.length === 0) {
-      this._onShowNextBatch(next.product)     // show the first batch of product to user
+      this._onPreparingNextBatch(next.product)     // show the first batch of product to user
     }
   }
 
   // when user finished choosing one of the filter
-  _onFilterChanged(type) {
+  _onSortingTypeChanged(type) {
     this.setState({
-      filter_type: type,
+      sort_type_selected: type,
       page: 0,
       product: []
     }, () => {
       this.props.reset()                    // clear out the already downloaded product list
-      this._loadProduct()                   // repopulate list with the sorted product list
+      this._fetchProductList()                   // repopulate list with the sorted product list
     })
   }
 
@@ -51,17 +50,17 @@ class ProductList extends Component {
 
   // if the user reach the end of list
   _onEndReached() {
-    this._onShowNextBatch(this.props.product)                           // show next batch each time user reach the end of list
+    this._onPreparingNextBatch(this.props.product)                           // show next batch each time user reach the end of list
   }
 
   // show the next batch of product to user
-  _onShowNextBatch(newProduct) {
+  _onPreparingNextBatch(newProduct) {
     let adsSize = Math.floor(this.state.product.length / Projects.ads_interval) // the amount of ads which has been shown to user
     let productTotal = this.state.product.length - adsSize   // the total product shown to user (except ads)
 
     // every 50 product shown, do pre-emptive fetch on the next 50 products
-    if(productTotal % this.state.limit === 0) {
-      this._loadProduct()
+    if(productTotal % Projects.fetch_limit === 0) {
+      this._fetchProductList()
     }
 
     // get the subsequent batch from pre-emptive fetch which will be shown to user
@@ -89,13 +88,13 @@ class ProductList extends Component {
   }
 
   // call api to batch load the product list
-  _loadProduct() {
+  _fetchProductList() {
     this.setState((prev) => {
       return { page: prev.page + 1 }                                    // make sure subsequent batch to be downloaded
     }, () => {
       let param = '_page=' + this.state.page +
-                  '&_limit=' + this.state.limit +
-                  ( this.state.filter_type !== null ? '&_sort=' + this.state.filter_type : '' )
+                  '&_limit=' + Projects.fetch_limit +
+                  ( this.state.sort_type_selected !== null ? '&_sort=' + this.state.sort_type_selected : '' )
       this.props.getBatchProduct(param)                                 // start api call
     })
   }
@@ -181,7 +180,7 @@ class ProductList extends Component {
           </View>
           <SortCheckBox      // displaying sorting option
             isEnabled={!this._isInitialFetching()}
-            onSortingChanged={(type) => this._onFilterChanged(type)}/>
+            onSortingChanged={(type) => this._onSortingTypeChanged(type)}/>
         </View>
         { content }
       </View>

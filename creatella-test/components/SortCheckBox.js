@@ -26,7 +26,7 @@ export default class SortCheckBox extends Component {
   }
 
   // select style for sorting options container, depending on whether is being selected or not
-  _getStyleButton(tipe) {
+  _getButtonStyle(tipe) {
     let bgColor
     switch (tipe) {
       case 'size': bgColor = Colors.themeHighlight; break;
@@ -40,7 +40,7 @@ export default class SortCheckBox extends Component {
   }
 
   // select style for sorting options title, depending on whether is being selected or not
-  _getStyleButtonTitle(tipe) {
+  _getButtonTitleStyle(tipe) {
     return this.state.sort_selected === tipe ? styles.titleItemSelected : styles.titleItem
   }
 
@@ -64,8 +64,8 @@ export default class SortCheckBox extends Component {
               <TouchableOpacity
                 key={i}
                 onPress={() => this._onSortingChanged(item)}
-                style={this._getStyleButton(item)}>
-                <Text style={this._getStyleButtonTitle(item)}>
+                style={this._getButtonStyle(item)}>
+                <Text style={this._getButtonTitleStyle(item)}>
                   {item}
                 </Text>
               </TouchableOpacity>
