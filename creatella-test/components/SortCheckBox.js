@@ -19,6 +19,7 @@ export default class SortCheckBox extends Component {
 
   // user choose one of sorting options
   _onSortingChanged(type) {
+    if(!this.props.isEnabled) return                          // if not allowed to change sorting option, then do nothing
     this.setState({ sort_selected: type }, () => {
       this.props.onSortingChanged(this.state.sort_selected)   // notify parents component that sorting option changed
     })
@@ -45,6 +46,7 @@ export default class SortCheckBox extends Component {
 
   // unselect any selected sorting option
   _onCancelSorting() {
+    if(!this.props.isEnabled) return                          // if not allowed to change sorting option, then do nothing
     this.setState({ sort_selected: null }, () => {
       this.props.onSortingChanged(this.state.sort_selected)   // notify parents component that sorting option changed
     })
@@ -140,4 +142,9 @@ const styles = StyleSheet.create({
 
 SortCheckBox.propTypes = {
   onSortingChanged: PropTypes.func.isRequired,      // function which called when sorting option changed
+  isEnabled: PropTypes.bool,                        // activate/deactivate sorting changes
+}
+
+SortCheckBox.defaultProps = {
+  isEnabled: true,
 }

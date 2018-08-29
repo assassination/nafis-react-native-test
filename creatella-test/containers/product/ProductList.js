@@ -44,6 +44,11 @@ class ProductList extends Component {
     })
   }
 
+  // check whether now is currently fetching the first batch or not
+  _isInitialFetching() {
+    return this.state.product.length === 0
+  }
+
   // if the user reach the end of list
   _onEndReached() {
     this._onShowNextBatch(this.props.product)                           // show next batch each time user reach the end of list
@@ -144,7 +149,7 @@ class ProductList extends Component {
   render() {
     let content, buttonSort
     // show product list only if product is not empty
-    if(!this.state.is_fetching && this.state.product.length > 0) {
+    if(!this._isInitialFetching()) {
       content =
           <View style={styles.listContainer}>
             <FlatList     // product list
@@ -175,6 +180,7 @@ class ProductList extends Component {
             <Text style={styles.headerTitle}>Buy My Faces</Text>
           </View>
           <SortCheckBox      // displaying sorting option
+            isEnabled={!this._isInitialFetching()}
             onSortingChanged={(type) => this._onFilterChanged(type)}/>
         </View>
         { content }
