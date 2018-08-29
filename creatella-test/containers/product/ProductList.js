@@ -123,6 +123,7 @@ class ProductList extends Component {
             loadingComponent={<ActivityIndicator color={Colors.theme} />}
             source={{ uri: item.url }}
           />
+          <Text style={styles.itemDate}>Ads</Text>
         </View>
       )
     }
