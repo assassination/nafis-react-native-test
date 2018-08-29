@@ -10,7 +10,7 @@
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
     "start": "react-native-scripts start",
-    "start-server": "json-server server/index.js --routes server/routes.json --middlewares server/handle-delay.js server/handle-ads.js",
+    "start-server": "json-server ../server/index.js --routes ../server/routes.json --middlewares ../server/handle-delay.js ../server/handle-ads.js",
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
