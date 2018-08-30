@@ -1,3 +1,4 @@
+
 E-commerce App, displaying all kind of ascii-based faces. It was build to run on iOS and Android.
 
 ## Overview
@@ -12,23 +13,45 @@ Projects consists of two parts: 1) server side code, i.e. **server**; 2) client-
 
 ### Run server first
 
-<<<<<<< HEAD
   * run ```npm run server``` on terminal
-=======
->>>>>>> 4b770f8c8c41ebffe1a4d5054a604a113e83233a
   * Wait until ```\{^_^}/ hi!``` message appear on terminal
   * You are good to go
 
 ### Run mobile app on a simulator
 
-  * iOS
-<<<<<<< HEAD
-    * run ```npm run ios``` on terminal
+  * iOS Simulator
+    * Open terminal and run the following
+    ```
+    npm run ios
+    ```
     * wait until simulator appears and app shown
-=======
-   * run ```npm run ios```
-   * wait until simulator appears and app shown
->>>>>>> 4b770f8c8c41ebffe1a4d5054a604a113e83233a
+
+  * Android Emulator (on MacOS)
+    * Download [Android Studio](https://developer.android.com/studio/)
+    * Install Android Studio
+    *While choosing component which needs to be installed, please tick Performance and Android Virtual Device, for a smoother experience*
+    * Open terminal and create/edit .bash_profile
+    ```
+    nano ~/.bash_profile
+    ```
+    * Add following line to .bash_profile:
+    ```
+    export ANDROID_HOME=~/Library/Android/sdk
+    export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
+    ```
+    * Look for available emulator
+    ```
+	  $ANDROID_HOME/tools/emulator -list-avds
+    ```
+  	*Output examples:*
+  	```
+  	3.2_QVGA_ADP2_API_22
+  	Pixel_API_22
+  	```
+    * Start Android emulator and run the app
+    ```
+    $ANDROID_HOME/tools/emulator -avd Pixel_API_22 & react-native run-android
+    ```
 
 ## Available Scripts
 
@@ -36,4 +59,4 @@ Projects consists of two parts: 1) server side code, i.e. **server**; 2) client-
 Start server
 
 ### `npm run ios`
-Run mobile app
+Run mobile app on iOS simulator
